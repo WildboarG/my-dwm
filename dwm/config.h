@@ -2,24 +2,30 @@
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int gappx     = 6;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 10;       /* horizontal padding of bar */
 static const char *fonts[]          = { "Hack Nerd Font Mono:size=8" };
-static const char dmenufont[]       = "monospace:size= 6";
+static const char dmenufont[]       = "monospace:size=6";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 static const unsigned int baralpha = 0xd0;
-//static const unsigned int borderalpha = OPAQUE;
+static const unsigned int borderalpha = OPAQUE;
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+};
+static const unsigned int alphas[][3]      = {
+	/*               fg      bg        border     */
+	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
 };
 
 /* tagging */
@@ -38,7 +44,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
@@ -61,10 +67,12 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = {"rofi","-show","drun", NULL };
+//static const char *dmenucmd[] = { "rofi", "-show","drun", NULL };
+static const char *dmenucmd[] = {"rofi","-show","drun","-modi","drun","-theme",
+		      ".config/rofi/launchers/misc/kde_simplemenu.rasi", NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 
-// myscript自定义按键
+ // myscript自定义按键
 static const char *flameshot[] = { "flameshot","gui",NULL};
 static const char *lightdec[] ={"/home/david/myscript/lightdec.sh",NULL};
 static const char *lightinc[] ={"/home/david/myscript/lightinc.sh",NULL};
@@ -99,15 +107,17 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+
 //自定义命令绑定
-{MODKEY|ControlMask,            XK_a,       spawn,             {.v = flameshot} },
-{MODKEY|ShiftMask,              XK_i,       spawn,             {.v = lightdec } },
-{MODKEY|ShiftMask,              XK_u,       spawn,             {.v = lightinc } },	
-{MODKEY|ShiftMask,              XK_h,       spawn,             {.v = soundup } },	
-{MODKEY|ShiftMask,              XK_l,       spawn,             {.v = sounddown } },	
-//{MODKEY|ShiftMask,              XK_k,       spawn,             {.v = soundban } },
-{MODKEY|ShiftMask,              XK_d,       spawn,             {.v = shutdown } },	
-	
+{MODKEY|ControlMask,            XK_a,       spawn,         {.v = flameshot} },
+{MODKEY|ShiftMask,              XK_i,       spawn,         {.v = lightdec } },
+{MODKEY|ShiftMask,              XK_u,       spawn,         {.v = lightinc } },
+{MODKEY|ShiftMask,              XK_h,       spawn,         {.v = soundup } },
+{MODKEY|ShiftMask,              XK_l,       spawn,         {.v = sounddown } },
+ //{MODKEY|ShiftMask,              XK_k,       spawn,      {.v = soundban } },
+{MODKEY|ShiftMask,              XK_d,       spawn,         {.v = shutdown } },
+
+
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
